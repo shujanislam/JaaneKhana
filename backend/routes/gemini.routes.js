@@ -1,5 +1,5 @@
 import express from "express";
-import { extractPrescription, getDetailsFromData } from "../services/gemini.service.js";
+import { analyzeFoodLabel } from "../services/gemini.service.js";
 const router = express.Router();
 
 // route with multer middleware to handle file upload
@@ -13,15 +13,14 @@ router.post("/api/gemini/upload", (req, res, next) => {
             return res.status(400).json({ error: 'Missing file upload. Send form-data with key "imagePath" and a PNG file.' });
         }
 
-        // pass file buffer to extractPrescription
-        const data = await extractPrescription(req.file);
-        console.log(data);
+        // Single API call - analyze food label directly
+        const result = await analyzeFoodLabel(req.file);
+        console.log(result);
 
-        const result = await getDetailsFromData(data);
-        return res.json(result);
+        return res.json({ analysis: result });
     } catch (err) {
         console.error(err);
-        return res.status(500).json({ error: err.message || 'Failed to extract prescription' });
+        return res.status(500).json({ error: err.message || 'Failed to analyze food label' });
     }
 });
 

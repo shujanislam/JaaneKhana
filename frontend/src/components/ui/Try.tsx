@@ -90,7 +90,8 @@ export default function DragDropDemo() {
       // Console log the analysis result
       console.log("Analysis Result:", result);
 
-      setAnalysisResult(result);
+      // Handle the new response format { analysis: "..." }
+      setAnalysisResult(result.analysis || result);
 
     } catch (error) {
       console.error("Error during analysis:", error);
@@ -254,9 +255,9 @@ export default function DragDropDemo() {
               </div>
 
               <div className="prose prose-sm max-w-none">
-                <pre className="whitespace-pre-wrap text-sm text-gray-700 font-sans bg-gray-50 p-4 rounded-lg">
-                  {JSON.stringify(analysisResult, null, 2)}
-                </pre>
+                <p className="whitespace-pre-wrap text-sm text-gray-700 font-sans bg-gray-50 p-4 rounded-lg">
+                  {typeof analysisResult === 'string' ? analysisResult : JSON.stringify(analysisResult, null, 2)}
+                </p>
               </div>
             </div>
           )}

@@ -121,6 +121,58 @@ ${JSON.stringify(foodJson, null, 2)}
 }
 
 /**
+ * Single API call - Analyze food label image directly
+ * No need for separate OCR + explanation for printed food labels
+ */
+export async function analyzeFoodLabel(imagePath) {
+  const model = genAI.getGenerativeModel({
+    model: "gemini-2.5-flash",
+    systemInstruction: `
+You are JaaneKhana, an AI food copilot that helps consumers understand food ingredients.
+
+Analyze the food label image and provide a CONCISE but DETAILED analysis in PARAGRAPH format for smooth text-to-speech reading.
+
+RULES:
+- NO introductions or greetings
+- NO bullet points or dashes
+- Write in flowing paragraphs
+- Plain text only, no markdown or special characters
+- Keep response around 150-200 words
+- Be specific about health impacts
+- Use natural sentence transitions
+`,
+    generationConfig: {
+      responseMimeType: "text/plain",
+    },
+  });
+
+  const imagePart = await fileToGenerativePart(imagePath, "image/jpeg");
+
+  const prompt = `
+Look at this food label image and provide analysis in PARAGRAPH format (no bullets) for TTS reading:
+
+Paragraph 1: State the product name, then describe the main concerning ingredients and what they are.
+
+Paragraph 2: List any allergens present in a sentence.
+
+Paragraph 3: Explain how this product affects people with common health conditions - diabetes, high blood pressure, low blood pressure, thyroid issues, and high cholesterol. Be specific about whether each group should eat it, use caution, or avoid it.
+
+Paragraph 4: Give a final verdict - who can safely enjoy this, who should limit it, and who should avoid it entirely.
+
+Write naturally as if speaking to someone. No bullets, no dashes, just flowing sentences.
+`;
+
+  const result = await model.generateContent([prompt, imagePart]);
+
+  const text = result?.response?.text();
+  if (!text) {
+    throw new Error("Gemini returned empty response");
+  }
+
+  return text;
+}
+
+/**
  * STEP 3
  * Convert explanation text to speech (WAV)
  */
