@@ -6,18 +6,18 @@ export default function Hero() {
     <section className="relative min-h-screen bg-white overflow-hidden pt-32 pb-20">
       {/* Animated gradient background */}
       <div className="absolute inset-0 opacity-30">
-        <div className="absolute top-20 right-1/3 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-32 left-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute top-20 right-1/3 w-96 h-96 bg-green-500/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-32 left-1/4 w-96 h-96 bg-orange-500/20 rounded-full blur-3xl animate-pulse" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          {/* Left side - Robot Doctor with floating animation */}
+          {/* Left side - Food AI with floating animation */}
           <div className="flex justify-center md:justify-end">
             <div className="relative w-full max-w-md animate-float">
               <img
                 src="/doc.png"
-                alt="Robot Doctor"
+                alt="Food AI Assistant"
                 className="w-full h-auto"
               />
             </div>
@@ -27,18 +27,18 @@ export default function Hero() {
           <div className="space-y-8">
             <div className="space-y-4">
               <h1 className="text-5xl md:text-6xl font-bold text-blue-900 leading-tight">
-                Jaane<span className='text-blue-700'>Khana</span><span className='text-green-500'></span> 
+                Jaane<span className='text-green-600'>Khana</span>
               </h1>
-              <span className="text-3xl font-bold text-blue-900">Your AI Companion</span>
+              <span className="text-3xl font-bold text-blue-900">Your AI Food Copilot</span>
                 <p className="text-gray-700 text-lg leading-relaxed max-w-lg">
-                Experience healthcare reimagined with cutting-edge AI. Get instant medical guidance, personalized health insights, and 24/7 support from your intelligent doctor.
+                Instantly understand food ingredients when decisions matter most. Snap a photo of any food label and get clear, human-level insights about what you're eating.
               </p>
             </div>
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-               <Button className="bg-blue-900 hover:bg-blue-800 text-white font-semibold px-8 py-6 text-base">
-                Start Free Consultation
+               <Button className="bg-green-700 hover:bg-green-800 text-white font-semibold px-8 py-6 text-base">
+                Scan Food Label
               </Button>
               <Button
                 variant="outline"

@@ -34,8 +34,8 @@ export default function Demo() {
                 See It In Action
               </h2>
               <p className="text-gray-700 text-lg leading-relaxed">
-                Experience the seamless interface of MedEase. Get instant medical guidance, 
-                track your health metrics, and connect with AI-powered health recommendations 
+                Experience the seamless interface of JaaneKhana. Scan any food label, 
+                understand complex ingredients instantly, and make informed choices 
                 all in one intuitive platform.
               </p>
             </div>
@@ -43,37 +43,37 @@ export default function Demo() {
             <div className="space-y-4">
               <div className="flex items-start gap-4">
                 <div className="flex-shrink-0">
-                  <div className="flex items-center justify-center h-12 w-12 rounded-md bg-blue-100">
-                    <span className="text-blue-900 font-bold">1</span>
+                  <div className="flex items-center justify-center h-12 w-12 rounded-md bg-green-100">
+                    <span className="text-green-700 font-bold">1</span>
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900">Quick Diagnosis</h3>
-                  <p className="text-gray-600 mt-1">Upload symptoms and get instant AI analysis in seconds</p>
+                  <h3 className="text-xl font-semibold text-gray-900">Scan & Analyze</h3>
+                  <p className="text-gray-600 mt-1">Snap a photo of any food label and get instant AI analysis</p>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
                 <div className="flex-shrink-0">
-                  <div className="flex items-center justify-center h-12 w-12 rounded-md bg-blue-100">
-                    <span className="text-blue-900 font-bold">2</span>
+                  <div className="flex items-center justify-center h-12 w-12 rounded-md bg-green-100">
+                    <span className="text-green-700 font-bold">2</span>
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900">Health Tracking</h3>
-                  <p className="text-gray-600 mt-1">Monitor vitals and get personalized health insights</p>
+                  <h3 className="text-xl font-semibold text-gray-900">Understand Ingredients</h3>
+                  <p className="text-gray-600 mt-1">Complex chemicals translated to simple, human-level insights</p>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
                 <div className="flex-shrink-0">
-                  <div className="flex items-center justify-center h-12 w-12 rounded-md bg-blue-100">
-                    <span className="text-blue-900 font-bold">3</span>
+                  <div className="flex items-center justify-center h-12 w-12 rounded-md bg-green-100">
+                    <span className="text-green-700 font-bold">3</span>
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900">24/7 Support</h3>
-                  <p className="text-gray-600 mt-1">Access your AI doctor anytime, anywhere on any device</p>
+                  <h3 className="text-xl font-semibold text-gray-900">Make Better Choices</h3>
+                  <p className="text-gray-600 mt-1">Get personalized recommendations based on your dietary needs</p>
                 </div>
               </div>
             </div>

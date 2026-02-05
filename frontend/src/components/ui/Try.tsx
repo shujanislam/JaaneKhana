@@ -102,7 +102,7 @@ export default function DragDropDemo() {
 
   return (
     <div className="p-6 max-w-2xl mx-auto">
-      <h2 className="text-2xl font-bold mb-6 text-blue-900 text-center">Upload Medical Records</h2>
+      <h2 className="text-2xl font-bold mb-6 text-blue-900 text-center">Upload Food Label</h2>
 
       <div
         className={`relative flex flex-col items-center justify-center w-full min-h-[300px] p-8 border-2 border-dashed rounded-xl transition-all duration-200 ease-in-out ${dragActive
