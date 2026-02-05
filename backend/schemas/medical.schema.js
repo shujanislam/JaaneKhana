@@ -1,36 +1,54 @@
 export default {
   type: "object",
   properties: {
-    patient_name: { type: "string" },
-    date: { type: "string", description: "ISO 8601 format" },
-    doctor_name: { type: "string" },
-    medications: {
+    product_name: { type: "string", description: "Name of the food product" },
+    brand: { type: "string", description: "Brand or manufacturer name" },
+    serving_size: { type: "string", description: "Serving size information" },
+    ingredients: {
       type: "array",
       items: {
         type: "object",
         properties: {
-          name: { type: "string" },
-          dosage: {
-            type: "object",
-            properties: {
-              value: { type: "number" },
-              unit: { type: "string", enum: ["mg", "ml", "tablet", "capsule", "drop"] }
-            }
+          name: { type: "string", description: "Ingredient name" },
+          category: { 
+            type: "string", 
+            enum: ["natural", "additive", "preservative", "sweetener", "coloring", "flavor", "emulsifier", "other"],
+            description: "Category of ingredient"
           },
-          frequency: {
-            type: "object",
-            properties: {
-              times_per_day: { type: "integer" },
-              specific_times: { type: "array", items: { type: "string" }, description: "e.g., ['08:00', '20:00']" },
-              notes: { type: "string", description: "e.g., After food" }
-            }
+          concern_level: { 
+            type: "string", 
+            enum: ["safe", "moderate", "caution", "avoid", "unknown"],
+            description: "Health concern level"
           },
-          duration_days: { type: "integer" }
+          explanation: { type: "string", description: "Brief explanation of what this ingredient is" }
         },
         required: ["name"]
       }
     },
-    summary: { type: "string" }
+    allergens: {
+      type: "array",
+      items: { type: "string" },
+      description: "List of allergens present"
+    },
+    nutrition_highlights: {
+      type: "object",
+      properties: {
+        calories: { type: "string" },
+        sugar: { type: "string" },
+        sodium: { type: "string" },
+        protein: { type: "string" },
+        fat: { type: "string" }
+      }
+    },
+    dietary_flags: {
+      type: "array",
+      items: { type: "string" },
+      description: "e.g., vegetarian, vegan, gluten-free, contains dairy"
+    },
+    overall_assessment: { 
+      type: "string", 
+      description: "Brief overall assessment of the product" 
+    }
   },
-  required: ["patient_name", "medications"]
+  required: ["product_name", "ingredients"]
 };

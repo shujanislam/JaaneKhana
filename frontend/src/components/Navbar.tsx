@@ -13,10 +13,10 @@ function Navbar() {
            <a href="/" className="flex items-center gap-2 text-blue-900">
             <img
               src="/logo.png"
-              alt="Studio logo"
+              alt="JaaneKhana logo"
               className="h-10 w-10"
             />
-            <span className="text-xl font-semibold tracking-tight">JadugarRaja</span>
+            <span className="text-xl font-semibold tracking-tight">JaaneKhana</span>
           </a>
 
           {/* Right: CTA buttons */}

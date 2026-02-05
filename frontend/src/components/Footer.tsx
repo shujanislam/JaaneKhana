@@ -9,13 +9,13 @@ export default function Footer() {
             <div className="flex items-center gap-2">
               <img
                 src="/logo.png"
-                alt="MedEase logo"
+                alt="JaaneKhana logo"
                 className="h-8 w-8"
               />
-              <span className="text-xl font-semibold">MedEase</span>
+              <span className="text-xl font-semibold">JaaneKhana</span>
             </div>
             <p className="text-blue-300 text-sm leading-relaxed">
-              Your AI companion for better healthcare. Get instant medical guidance and personalized health insights anytime.
+              Your AI food copilot. Instantly understand food ingredients and make informed choices about what you eat.
             </p>
             <div className="flex gap-4 pt-2">
               <a href="#" className="text-blue-300 hover:text-cyan-400 transition-colors">
@@ -58,7 +58,7 @@ export default function Footer() {
             <ul className="space-y-3">
               <li><a href="#" className="text-blue-300 hover:text-cyan-400 transition-colors text-sm">Privacy</a></li>
               <li><a href="#" className="text-blue-300 hover:text-cyan-400 transition-colors text-sm">Terms</a></li>
-              <li><a href="#" className="text-blue-300 hover:text-cyan-400 transition-colors text-sm">HIPAA</a></li>
+              <li><a href="#" className="text-blue-300 hover:text-cyan-400 transition-colors text-sm">Data Policy</a></li>
               <li><a href="#" className="text-blue-300 hover:text-cyan-400 transition-colors text-sm">Cookies</a></li>
             </ul>
           </div>
@@ -68,7 +68,7 @@ export default function Footer() {
         <div className="border-t border-blue-800 pt-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-blue-300 text-sm">
-              &copy; 2024 MedEase. All rights reserved.
+              &copy; 2026 JaaneKhana. All rights reserved.
             </p>
             <div className="flex gap-6">
               <a href="#" className="text-blue-300 hover:text-cyan-400 transition-colors text-sm">Status</a>

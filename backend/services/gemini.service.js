@@ -1,5 +1,5 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import medicalSchema from "../schemas/medical.schema.js";
+import foodSchema from "../schemas/medical.schema.js";
 import { fileToGenerativePart } from "../utils/generative.util.js";
 import fs from "node:fs/promises";
 import pkg from "wavefile";
@@ -10,33 +10,43 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 /**
  * STEP 1
- * Extract structured prescription data from image
+ * Extract structured food ingredient data from image
  */
 export async function extractPrescription(imagePath) {
   const model = genAI.getGenerativeModel({
     model: "gemini-2.5-flash-lite",
     systemInstruction: `
-You are MedEase, a medical prescription OCR assistant.
+You are JaaneKhana, an AI food ingredient analysis assistant.
 
 TASK:
-- Extract ONLY what is visible in the prescription image.
-- Output MUST be valid JSON.
-- JSON MUST strictly follow the provided schema.
-- Do NOT guess or infer missing information.
+- Extract ALL ingredients and nutrition information visible on the food label image.
+- Identify each ingredient and categorize it (natural, additive, preservative, sweetener, coloring, flavor, emulsifier, other).
+- Assess concern level for each ingredient (safe, moderate, caution, avoid, unknown).
+- Identify allergens present in the product.
+- Extract key nutrition highlights if visible.
+- Output MUST be valid JSON following the provided schema.
+- Do NOT guess information not visible in the image.
 - If a field is unclear or missing, set it to null.
-- Do NOT include explanations, comments, or extra text.
+- Do NOT include explanations, comments, or extra text outside JSON.
 `,
     generationConfig: {
       responseMimeType: "application/json",
-      responseSchema: medicalSchema,
+      responseSchema: foodSchema,
     },
   });
 
   const imagePart = await fileToGenerativePart(imagePath, "image/jpeg");
 
   const prompt = `
-Extract all readable information from this prescription image.
-Use only the text present in the image.
+Analyze this food label image and extract:
+1. Product name and brand
+2. All ingredients listed - categorize each and assess health concern level
+3. Allergens present
+4. Key nutrition facts (calories, sugar, sodium, protein, fat)
+5. Dietary flags (vegetarian, vegan, gluten-free, etc.)
+6. Brief overall assessment
+
+Use only information visible in the image.
 `;
 
   const result = await model.generateContent([prompt, imagePart]);
@@ -56,23 +66,22 @@ Use only the text present in the image.
 
 /**
  * STEP 2
- * Generate human-readable explanation from extracted JSON
+ * Generate human-readable explanation from extracted food data
  */
-export async function getDetailsFromData(prescriptionJson, attempt = 1) {
+export async function getDetailsFromData(foodJson, attempt = 1) {
   const model = genAI.getGenerativeModel({
     model: "gemini-2.5-flash",
     systemInstruction: `
-You are a medical assistant explaining prescriptions to patients.
+You are JaaneKhana. Give CONCISE but DETAILED food ingredient analysis in PARAGRAPH format for smooth text-to-speech reading.
 
 RULES:
-- Do NOT diagnose diseases.
-- Do NOT suggest new medicines.
-- Do NOT modify prescription data.
-- Use simple, patient-friendly language.
-- Do NOT use Markdown formatting.
-- Use plain text only.
-- Use "-" for lists.
-- Keep tone professional and calm.
+- NO introductions or greetings
+- NO bullet points or dashes
+- Write in flowing paragraphs
+- Plain text only, no markdown or special characters
+- Keep response around 150-200 words
+- Be specific about health impacts
+- Use natural sentence transitions
 `,
     generationConfig: {
       responseMimeType: "text/plain",
@@ -80,10 +89,20 @@ RULES:
   });
 
   const prompt = `
-Explain the following prescription clearly for a patient.
+Analyze this food product in PARAGRAPH format (no bullets) for TTS reading:
 
-Prescription data (JSON):
-${JSON.stringify(prescriptionJson, null, 2)}
+Paragraph 1: State the product name, then describe the main concerning ingredients and what they are.
+
+Paragraph 2: List any allergens present in a sentence.
+
+Paragraph 3: Explain how this product affects people with common health conditions - diabetes, high blood pressure, low blood pressure, thyroid issues, and high cholesterol. Be specific about whether each group should eat it, use caution, or avoid it.
+
+Paragraph 4: Give a final verdict - who can safely enjoy this, who should limit it, and who should avoid it entirely.
+
+Write naturally as if speaking to someone. No bullets, no dashes, just flowing sentences.
+
+Data:
+${JSON.stringify(foodJson, null, 2)}
 `;
 
   try {
@@ -95,7 +114,7 @@ ${JSON.stringify(prescriptionJson, null, 2)}
     // Retry once on Google overload
     if (error?.status === 503 && attempt < 2) {
       await new Promise((r) => setTimeout(r, 2000));
-      return getDetailsFromData(prescriptionJson, attempt + 1);
+      return getDetailsFromData(foodJson, attempt + 1);
     }
     throw error;
   }
@@ -111,7 +130,7 @@ export async function generateSpeechFromText(text, filename = "advice.wav") {
   });
 
   const prompt = `
-Speak the following text in a calm, professional medical assistant voice:
+Speak the following text in a friendly, helpful food advisor voice:
 
 ${text}
 `;
