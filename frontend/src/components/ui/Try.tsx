@@ -1,14 +1,15 @@
 import { useState, useRef } from 'react';
-import { CloudUpload, File, X } from 'lucide-react';
+import { CloudUpload, File, X, Volume2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export default function DragDropDemo() {
   const [dragActive, setDragActive] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [analysisResult, setAnalysisResult] = useState<any>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleDrag = (e: React.DragEvent) => {
-    e.preventDefault();
+  const handleDrag = (e: React.DragEvent) => { e.preventDefault();
     e.stopPropagation();
     if (e.type === "dragenter" || e.type === "dragover") {
       setDragActive(true);
@@ -45,6 +46,56 @@ export default function DragDropDemo() {
 
   const onButtonClick = () => {
     inputRef.current?.click();
+  };
+
+  const handleSubmitAnalysis = async () => {
+    console.log('handleSubmitAnalysis called');
+    console.log('Files array:', files);
+    console.log('Files length:', files.length);
+    
+    if (files.length === 0) {
+      alert("Please upload at least one file!");
+      return;
+    }
+
+    setLoading(true);
+    
+    try {
+      console.log('First file:', files[0]);
+      
+      // Create FormData and append the first image
+      const formData = new FormData();
+      formData.append('imagePath', files[0]);
+      
+      // Log FormData contents
+      console.log('FormData contents:');
+      for (let [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
+
+      // Send POST request to backend
+      const response = await fetch('http://localhost:3000/api/gemini/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      
+      // Console log the analysis result
+      console.log("Analysis Result:", result);
+      
+      setAnalysisResult(result);
+      
+    } catch (error) {
+      console.error("Error during analysis:", error);
+      alert(`Error: ${error instanceof Error ? error.message : 'Failed to analyze image'}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -143,15 +194,40 @@ export default function DragDropDemo() {
 
           <div className="flex justify-end pt-4 border-t border-gray-100">
             <Button
-              onClick={() => {
-                alert("Files submitted for analysis!");
-                setFiles([]);
-              }}
-              className="bg-blue-900 hover:bg-blue-800 text-white px-6"
+              onClick={handleSubmitAnalysis}
+              disabled={loading}
+              className="bg-blue-900 hover:bg-blue-800 text-white px-6 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Submit Analysis
+              {loading ? "Analyzing..." : "Submit Analysis"}
             </Button>
           </div>
+
+          {/* Analysis Result Section */}
+          {analysisResult && (
+            <div className="mt-6 p-6 bg-white border border-blue-200 rounded-xl shadow-sm space-y-4">
+              <div className="flex items-center justify-between border-b border-gray-200 pb-3">
+                <h3 className="text-lg font-semibold text-blue-900">Analysis Result</h3>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="border-blue-200 text-blue-900 hover:bg-blue-50 flex items-center gap-2"
+                  onClick={() => {
+                    // Placeholder for audio functionality
+                    console.log("Play audio clicked");
+                  }}
+                >
+                  <Volume2 className="w-4 h-4" />
+                  Play Audio
+                </Button>
+              </div>
+              
+              <div className="prose prose-sm max-w-none">
+                <pre className="whitespace-pre-wrap text-sm text-gray-700 font-sans bg-gray-50 p-4 rounded-lg">
+                  {JSON.stringify(analysisResult, null, 2)}
+                </pre>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

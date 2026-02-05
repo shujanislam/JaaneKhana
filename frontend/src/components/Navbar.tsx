@@ -1,9 +1,9 @@
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import Model from "@/components/ui/Model"
 import DragDropDemo from './ui/Try';
 
-export default function Navbar() {
+function Navbar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <>
@@ -43,3 +43,5 @@ export default function Navbar() {
     </>
   );
 }
+
+export default memo(Navbar);

@@ -1,23 +1,6 @@
-import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 
 export default function Hero() {
-  const [floatY, setFloatY] = useState(0);
-
-  useEffect(() => {
-    let animationFrameId;
-    let time = 0;
-
-    const animate = () => {
-      time += 0.01;
-      const wobble = Math.sin(time) * 15 + Math.cos(time * 0.7) * 10;
-      setFloatY(wobble);
-      animationFrameId = requestAnimationFrame(animate);
-    };
-
-    animationFrameId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animationFrameId);
-  }, []);
 
   return (
     <section className="relative min-h-screen bg-white overflow-hidden pt-32 pb-20">
@@ -31,12 +14,7 @@ export default function Hero() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           {/* Left side - Robot Doctor with floating animation */}
           <div className="flex justify-center md:justify-end">
-            <div
-              style={{
-                transform: `translateY(${floatY}px)`,
-              }}
-              className="relative w-full max-w-md"
-            >
+            <div className="relative w-full max-w-md animate-float">
               <img
                 src="/doc.png"
                 alt="Robot Doctor"
