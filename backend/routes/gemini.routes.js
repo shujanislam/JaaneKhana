@@ -6,6 +6,7 @@ const router = express.Router();
 router.post("/api/gemini/upload", (req, res, next) => {
     req.app.locals.upload.single('imagePath')(req, res, next);
 }, async (req, res) => {
+    console.log("api called");
     try {
         // check if file was uploaded
         if (!req.file) {
