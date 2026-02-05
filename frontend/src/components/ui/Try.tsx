@@ -7,6 +7,8 @@ export default function DragDropDemo() {
   const [files, setFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
   const [analysisResult, setAnalysisResult] = useState<any>(null);
+  const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleDrag = (e: React.DragEvent) => { e.preventDefault();
@@ -52,21 +54,21 @@ export default function DragDropDemo() {
     console.log('handleSubmitAnalysis called');
     console.log('Files array:', files);
     console.log('Files length:', files.length);
-    
+
     if (files.length === 0) {
       alert("Please upload at least one file!");
       return;
     }
 
     setLoading(true);
-    
+
     try {
       console.log('First file:', files[0]);
-      
+
       // Create FormData and append the first image
       const formData = new FormData();
       formData.append('imagePath', files[0]);
-      
+
       // Log FormData contents
       console.log('FormData contents:');
       for (let [key, value] of formData.entries()) {
@@ -84,12 +86,12 @@ export default function DragDropDemo() {
       }
 
       const result = await response.json();
-      
+
       // Console log the analysis result
       console.log("Analysis Result:", result);
-      
+
       setAnalysisResult(result);
-      
+
     } catch (error) {
       console.error("Error during analysis:", error);
       alert(`Error: ${error instanceof Error ? error.message : 'Failed to analyze image'}`);
@@ -141,7 +143,7 @@ export default function DragDropDemo() {
             type="button"
             variant="outline"
             onClick={(e) => {
-              // We need to prevent the drag events from firing on the button click if they propagate 
+              // We need to prevent the drag events from firing on the button click if they propagate
               // but pointer-events-none on parent wrapper handles simple cases.
               // However, the button needs pointer-events-auto.
               // Best structure: The overlay handles drag, content is z-indexed or structured cleanly.
@@ -211,16 +213,46 @@ export default function DragDropDemo() {
                   variant="outline"
                   size="sm"
                   className="border-blue-200 text-blue-900 hover:bg-blue-50 flex items-center gap-2"
-                  onClick={() => {
-                    // Placeholder for audio functionality
-                    console.log("Play audio clicked");
+                  onClick={async () => {
+                    try {
+                      if (audioUrl) {
+                        audioRef.current?.play();
+                        return;
+                      }
+
+                      const text = typeof analysisResult === 'string'
+                        ? analysisResult
+                        : JSON.stringify(analysisResult, null, 2);
+
+                      const resp = await fetch('http://localhost:3000/api/tts', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ text }),
+                      });
+
+                      if (!resp.ok) throw new Error(`TTS request failed: ${resp.status}`);
+                      const data = await resp.json();
+                      if (!data?.url) throw new Error('No audio URL returned');
+
+                      setAudioUrl(data.url);
+                      if (!audioRef.current) {
+                        audioRef.current = new Audio(data.url);
+                      } else {
+                        audioRef.current.src = data.url;
+                      }
+                      await audioRef.current.play();
+                    } catch (e) {
+                      console.error('Play audio failed', e);
+                      alert(`Play audio failed: ${e instanceof Error ? e.message : String(e)}`);
+                    }
                   }}
                 >
                   <Volume2 className="w-4 h-4" />
                   Play Audio
                 </Button>
+                <audio ref={(el) => { if (el) audioRef.current = el; }} style={{ display: 'none' }} />
               </div>
-              
+
               <div className="prose prose-sm max-w-none">
                 <pre className="whitespace-pre-wrap text-sm text-gray-700 font-sans bg-gray-50 p-4 rounded-lg">
                   {JSON.stringify(analysisResult, null, 2)}
