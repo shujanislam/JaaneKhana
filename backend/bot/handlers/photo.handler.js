@@ -10,7 +10,7 @@ import {
   getDetailsFromData,
   generateSpeechFromText,
 } from "../../services/gemini.service.js";
-import { elevenLabsTTS } from "../../services/eleven.service.js";
+import { generateTTS } from "../../services/tts.service.js";
 import {
   ensureLanguageSelected,
   getUserLanguage,
@@ -76,26 +76,36 @@ async function processPrescription(ctx) {
       { parse_mode: "Markdown" }
     );
 
-    // 5. Generate voice using ElevenLabs (stable)
+    // 5. Generate voice (Edge TTS)
     await ctx.sendChatAction("record_voice");
     try {
-      audioPath = await elevenLabsTTS(medicalAdvice, "advice.mp3", lang);
+      audioPath = await generateTTS(medicalAdvice, "advice.mp3", lang);
     } catch (ttsErr) {
-      console.warn("ElevenLabs TTS failed, falling back to Gemini TTS:", ttsErr);
-      audioPath = await generateSpeechFromText(
-        medicalAdvice,
-        `advice_${Date.now()}.wav`
-      );
+      console.warn("Edge TTS failed, falling back to Gemini TTS:", ttsErr);
+      try {
+        audioPath = await generateSpeechFromText(
+          medicalAdvice,
+          `advice_${Date.now()}.wav`
+        );
+      } catch (geminiTtsErr) {
+        console.error("Gemini TTS fallback failed:", geminiTtsErr);
+        await ctx.reply(
+          "⚠️ I generated the text summary, but audio generation failed right now. Please try again in a moment."
+        );
+        audioPath = null;
+      }
     }
 
     // 6. Send audio
-    await ctx.replyWithAudio(
-      { source: audioPath },
-      {
-        title: "MedEase Audio Advice",
-        caption: "🔊 Listen to your prescription summary",
-      }
-    );
+    if (audioPath) {
+      await ctx.replyWithAudio(
+        { source: audioPath },
+        {
+          title: "MedEase Audio Advice",
+          caption: "🔊 Listen to your prescription summary",
+        }
+      );
+    }
   } catch (err) {
     console.error("Handler Error:", err);
     await ctx.reply(
@@ -116,3 +126,4 @@ async function processPrescription(ctx) {
 }
 
 export default registerPhotoHandler;
+
