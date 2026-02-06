@@ -103,12 +103,12 @@ export default function DragDropDemo() {
 
   return (
     <div className="p-6 max-w-2xl mx-auto">
-      <h2 className="text-2xl font-bold mb-6 text-blue-900 text-center">Upload Food Label</h2>
+      <h2 className="text-2xl font-bold mb-6 text-black text-center">Upload Food Label</h2>
 
       <div
         className={`relative flex flex-col items-center justify-center w-full min-h-[300px] p-8 border-2 border-dashed rounded-xl transition-all duration-200 ease-in-out ${dragActive
-          ? "border-blue-500 bg-blue-50 scale-[1.01]"
-          : "border-gray-300 bg-gray-50 hover:bg-gray-100"
+          ? "border-green-500 bg-black scale-[1.01]"
+          : "border-gray-300 bg-[#f4fde3] hover:bg-[#edfecd]"
           }`}
         onDragEnter={handleDrag}
         onDragLeave={handleDrag}
@@ -125,7 +125,7 @@ export default function DragDropDemo() {
         />
 
         <div className="flex flex-col items-center text-center space-y-4 pointer-events-none">
-          <div className={`p-4 rounded-full transition-colors ${dragActive ? 'bg-blue-100' : 'bg-white shadow-sm'}`}>
+          <div className={`p-4 rounded-full transition-colors ${dragActive ? 'bg-green-300' : 'bg-white shadow-sm'}`}>
             <CloudUpload
               className={`w-12 h-12 ${dragActive ? 'text-blue-600' : 'text-gray-400'}`}
             />
