@@ -9,15 +9,15 @@ export default function Demo() {
               {/* Mobile phone frame */}
               <div className="bg-black rounded-3xl shadow-2xl overflow-hidden border-8 border-black" style={{aspectRatio: '9/19.5'}}>
                 {/* Notch */}
-                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 bg-black rounded-b-3xl w-40 h-6 z-20"></div>
+                <div className="absolute mt-3 left-1/2 transform -translate-x-1/2 bg-black rounded-full w-36 h-8 z-20"></div>
                 
                 {/* Screen content */}
-                <div className="bg-white w-full  h-full overflow-hidden">
+                <div className="bg-white w-full h-full overflow-hidden">
                   <video
                     autoPlay
                     muted
                     loop
-                    className="w-full h-full  object-cover"
+                    className="w-full h-full object-cover"
                   >
                     <source src="/demo.mp4" type="video/mp4" />
                     Your browser does not support the video tag.
@@ -29,51 +29,50 @@ export default function Demo() {
 
           {/* Right side - Text content */}
           <div className="space-y-6">
-            <div className="space-y-4">
-              <h2 className="text-4xl md:text-5xl font-bold text-blue-900">
-                See It In Action
-              </h2>
+             <div className="space-y-4">
+               <h2 className="text-4xl md:text-5xl font-bold text-black">
+                 See It In Action
+               </h2>
               <p className="text-gray-700 text-lg leading-relaxed">
-                Experience the seamless interface of JaaneKhana. Scan any food label, 
-                understand complex ingredients instantly, and make informed choices 
-                all in one intuitive platform.
+                Experience the seamless interface of JaaneKhana. Get instant food insights,
+                understand nutrition labels, and connect with AI-powered food recommendations
               </p>
             </div>
 
             <div className="space-y-4">
               <div className="flex items-start gap-4">
-                <div className="flex-shrink-0">
-                  <div className="flex items-center justify-center h-12 w-12 rounded-md bg-green-100">
-                    <span className="text-green-700 font-bold">1</span>
-                  </div>
-                </div>
+                 <div className="flex-shrink-0">
+                   <div className="flex items-center justify-center h-12 w-12 rounded-md bg-lime-200">
+                     <span className="text-black font-bold">1</span>
+                   </div>
+                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900">Scan & Analyze</h3>
-                  <p className="text-gray-600 mt-1">Snap a photo of any food label and get instant AI analysis</p>
+                  <h3 className="text-xl font-semibold text-gray-900">Quick Scan</h3>
+                  <p className="text-gray-600 mt-1">Upload food labels and get instant AI analysis in seconds</p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-4">
-                <div className="flex-shrink-0">
-                  <div className="flex items-center justify-center h-12 w-12 rounded-md bg-green-100">
-                    <span className="text-green-700 font-bold">2</span>
-                  </div>
-                </div>
+               <div className="flex items-start gap-4">
+                 <div className="flex-shrink-0">
+                   <div className="flex items-center justify-center h-12 w-12 rounded-md bg-lime-200">
+                     <span className="text-black font-bold">2</span>
+                   </div>
+                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900">Understand Ingredients</h3>
-                  <p className="text-gray-600 mt-1">Complex chemicals translated to simple, human-level insights</p>
+                  <h3 className="text-xl font-semibold text-gray-900">Nutrition Tracking</h3>
+                  <p className="text-gray-600 mt-1">Monitor ingredients and get personalized nutrition insights</p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-4">
-                <div className="flex-shrink-0">
-                  <div className="flex items-center justify-center h-12 w-12 rounded-md bg-green-100">
-                    <span className="text-green-700 font-bold">3</span>
-                  </div>
-                </div>
+               <div className="flex items-start gap-4">
+                 <div className="flex-shrink-0">
+                   <div className="flex items-center justify-center h-12 w-12 rounded-md bg-lime-200">
+                     <span className="text-black font-bold">3</span>
+                   </div>
+                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900">Make Better Choices</h3>
-                  <p className="text-gray-600 mt-1">Get personalized recommendations based on your dietary needs</p>
+                  <h3 className="text-xl font-semibold text-gray-900">24/7 Support</h3>
+                  <p className="text-gray-600 mt-1">Access your AI food assistant anytime, anywhere on any device</p>
                 </div>
               </div>
             </div>

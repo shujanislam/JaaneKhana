@@ -1,83 +1,168 @@
+import { motion, useInView } from "framer-motion"
+import { useState, useRef } from "react"
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.15,
+    },
+  },
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 15 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      stiffness: 100,
+      damping: 20,
+    },
+  },
+}
+
 export default function Footer() {
+  const [isHovering, setIsHovering] = useState(false)
+  const footerRef = useRef(null)
+  const isInView = useInView(footerRef, { once: true, margin: "-100px" })
+
+  const footerLinks = [
+    {
+      title: "Products",
+      links: ["Lemon Lime", "Pineapple Coconut", "Mystery", "Bundles"],
+    },
+    {
+      title: "Quick Links",
+      links: ["Home", "Flavours", "Creators", "Distributors"],
+    },
+    {
+      title: "Company",
+      links: ["About", "Careers", "Press", "Contact"],
+    },
+    {
+      title: "Legal",
+      links: ["Privacy Policy", "Terms of Service", "Cookie Policy"],
+    },
+  ]
+
   return (
-    <footer className="bg-blue-900 text-white py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Main footer content */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-          {/* Brand section */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-2">
-              <img
-                src="/logo.png"
-                alt="JaaneKhana logo"
-                className="h-8 w-8"
-              />
-              <span className="text-xl font-semibold">JaaneKhana</span>
-            </div>
-            <p className="text-blue-300 text-sm leading-relaxed">
-              Your AI food copilot. Instantly understand food ingredients and make informed choices about what you eat.
-            </p>
-            <div className="flex gap-4 pt-2">
-              <a href="#" className="text-blue-300 hover:text-cyan-400 transition-colors">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2s9 5 20 5a9.5 9.5 0 00-9-5.5c4.75 2.25 7-7 7-7"/></svg>
-              </a>
-              <a href="#" className="text-blue-300 hover:text-cyan-400 transition-colors">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a6 6 0 00-6 6v3H7v4h2v8h4v-8h3l1-4h-4V8a2 2 0 012-2h3z"/></svg>
-              </a>
-              <a href="#" className="text-blue-300 hover:text-cyan-400 transition-colors">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
-              </a>
-            </div>
-          </div>
+    <footer ref={footerRef} id="careers" className="relative bg-[#121212] pt-16 pb-6 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }}
+          className="text-center mb-12"
+        >
+          <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter leading-[0.9] overflow-hidden">
+            <motion.span
+              className="block"
+              initial={{ y: 100 }}
+              whileInView={{ y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
+            >
+              READY TO
+            </motion.span>
+            <motion.span
+              className="block text-[#AFFF00]"
+              initial={{ y: 100 }}
+              whileInView={{ y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1], delay: 0.1 }}
+            >
+              LEVEL UP?
+            </motion.span>
+          </h2>
+        </motion.div>
 
-          {/* Product */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4 text-white">Product</h3>
-            <ul className="space-y-3">
-              <li><a href="#" className="text-blue-300 hover:text-cyan-400 transition-colors text-sm">Features</a></li>
-              <li><a href="#" className="text-blue-300 hover:text-cyan-400 transition-colors text-sm">Pricing</a></li>
-              <li><a href="#" className="text-blue-300 hover:text-cyan-400 transition-colors text-sm">Security</a></li>
-              <li><a href="#" className="text-blue-300 hover:text-cyan-400 transition-colors text-sm">Roadmap</a></li>
-            </ul>
-          </div>
+        <motion.div
+          className="text-center mb-10"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+        >
+          <p className="text-white/60 font-mono text-xs max-w-xl mx-auto leading-relaxed">
+            JaaneKhaana is a better-for-you energy drink crafted with natural flavors, zero sugar, and a clean energy
+            formula. Fuel your ambition without the crash.
+          </p>
+        </motion.div>
 
-          {/* Company */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4 text-white">Company</h3>
-            <ul className="space-y-3">
-              <li><a href="#" className="text-blue-300 hover:text-cyan-400 transition-colors text-sm">About</a></li>
-              <li><a href="#" className="text-blue-300 hover:text-cyan-400 transition-colors text-sm">Blog</a></li>
-              <li><a href="#" className="text-blue-300 hover:text-cyan-400 transition-colors text-sm">Careers</a></li>
-              <li><a href="#" className="text-blue-300 hover:text-cyan-400 transition-colors text-sm">Contact</a></li>
-            </ul>
-          </div>
+        <motion.div
+          className="grid grid-cols-2 md:grid-cols-4 gap-6 py-8 border-t border-white/10"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
+          {footerLinks.map((section) => (
+            <motion.div key={section.title} variants={itemVariants}>
+              <h4 className="font-bold text-white text-sm mb-3">{section.title}</h4>
+              <ul className="space-y-2">
+                {section.links.map((item) => (
+                  <li key={item}>
+                    <motion.div whileHover={{ x: 4 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
+                      <a
+                        href="#"
+                        className="text-white/60 hover:text-[#AFFF00] font-mono text-xs transition-colors inline-block"
+                      >
+                        {item}
+                      </a>
+                    </motion.div>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          ))}
+        </motion.div>
 
-          {/* Legal */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4 text-white">Legal</h3>
-            <ul className="space-y-3">
-              <li><a href="#" className="text-blue-300 hover:text-cyan-400 transition-colors text-sm">Privacy</a></li>
-              <li><a href="#" className="text-blue-300 hover:text-cyan-400 transition-colors text-sm">Terms</a></li>
-              <li><a href="#" className="text-blue-300 hover:text-cyan-400 transition-colors text-sm">Data Policy</a></li>
-              <li><a href="#" className="text-blue-300 hover:text-cyan-400 transition-colors text-sm">Cookies</a></li>
-            </ul>
-          </div>
-        </div>
+        <motion.div
+          className="flex flex-col md:flex-row justify-between items-center pt-6 border-t border-white/10 gap-3"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.5 }}
+        >
+          <motion.div
+            className="flex items-center gap-2"
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          >
+            <span className="text-xl font-black">
+              <span className="text-white">Jaane</span>
+              <span className="text-[#AFFF00]">Khaana</span>
+            </span>
+          </motion.div>
 
-        {/* Bottom footer */}
-        <div className="border-t border-blue-800 pt-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-blue-300 text-sm">
-              &copy; 2026 JaaneKhana. All rights reserved.
-            </p>
-            <div className="flex gap-6">
-              <a href="#" className="text-blue-300 hover:text-cyan-400 transition-colors text-sm">Status</a>
-              <a href="#" className="text-blue-300 hover:text-cyan-400 transition-colors text-sm">Accessibility</a>
-              <a href="#" className="text-blue-300 hover:text-cyan-400 transition-colors text-sm">Support</a>
-            </div>
-          </div>
-        </div>
+          <p className="text-white/40 font-mono text-xs">© 2026 JaaneKhaana. All rights reserved.</p>
+
+          <motion.p
+            className="text-white/30 font-mono text-xs cursor-pointer"
+            onHoverStart={() => setIsHovering(true)}
+            onHoverEnd={() => setIsHovering(false)}
+            animate={
+              isHovering
+                ? {
+                    rotate: [0, -5, 5, -5, 5, 0],
+                    scale: [1, 1.1, 1],
+                    color: "#AFFF00",
+                  }
+                : {
+                    rotate: 0,
+                    scale: 1,
+                    color: "rgba(255,255,255,0.3)",
+                  }
+            }
+            transition={{ duration: 0.5 }}
+          >
+            made with energy
+          </motion.p>
+        </motion.div>
       </div>
     </footer>
-  );
+  )
 }

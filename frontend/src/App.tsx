@@ -1,5 +1,3 @@
-import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -10,13 +8,11 @@ function App() {
 
   return (
     <>
-      <DndProvider backend={HTML5Backend}>
-        <Navbar />
-        <Hero />
-        <About />
-        <Demo />
-        <Footer />
-      </DndProvider>
+      <Navbar />
+      <Hero />
+      <About />
+      <Demo />
+      <Footer />
     </>
   )
 }
